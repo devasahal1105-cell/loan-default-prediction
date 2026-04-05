@@ -120,15 +120,13 @@ c3, c4 = st.columns(2)
 with c3:
     income_data = filtered[filtered.person_income < 200000].copy()
     fig3 = px.histogram(income_data,
-                         x='person_income', color='loan_status_label',
-                         nbins=50, barmode='overlay', opacity=0.75,
-                         color_discrete_map={'No Default':'#28a745','Default':'#e94560'},
-                         labels={'person_income':'Annual Income ($)','loan_status_label':'Status'},
-                         title='Income Distribution by Default Status',
-                         category_orders={'loan_status_label': ['No Default', 'Default']})
+                         x='person_income',
+                         nbins=50, opacity=0.75,
+                         color_discrete_sequence=['#4e89e8'],
+                         labels={'person_income':'Annual Income ($)'},
+                         title='Income Distribution')
     fig3.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                       height=320, margin=dict(t=40,b=20,l=10,r=10),
-                       legend=dict(orientation='h', yanchor='bottom', y=1.02))
+                       height=320, margin=dict(t=40,b=20,l=10,r=10))
     fig3.update_yaxes(gridcolor='#eeeeee')
     fig3.update_xaxes(showgrid=False)
     st.plotly_chart(fig3, use_container_width=True)
