@@ -132,18 +132,16 @@ with c3:
     st.plotly_chart(fig3, use_container_width=True)
 
 with c4:
-    fig4 = px.histogram(filtered, x='person_age', color='loan_status_label',
-                         nbins=40, barmode='overlay', opacity=0.75,
-                         color_discrete_map={'No Default':'#28a745','Default':'#e94560'},
-                         labels={'person_age':'Age','loan_status_label':'Status'},
-                         title='Age Distribution by Default Status')
+    fig4 = px.histogram(filtered, x='person_age',
+                         nbins=40, opacity=0.75,
+                         color_discrete_sequence=['#e94560'],
+                         labels={'person_age':'Age'},
+                         title='Age Distribution')
     fig4.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                       height=320, margin=dict(t=40,b=20,l=10,r=10),
-                       legend=dict(orientation='h', yanchor='bottom', y=1.02))
+                       height=320, margin=dict(t=40,b=20,l=10,r=10))
     fig4.update_yaxes(gridcolor='#eeeeee')
     fig4.update_xaxes(showgrid=False)
     st.plotly_chart(fig4, use_container_width=True)
-
 # ── Row 3: Loan amount vs income scatter + Interest rate by grade ──────────────
 st.markdown("<div class='section-header'>💡 Loan Amount & Interest Rate Analysis</div>", unsafe_allow_html=True)
 c5, c6 = st.columns(2)
