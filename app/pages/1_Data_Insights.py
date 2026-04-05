@@ -147,12 +147,13 @@ st.markdown("<div class='section-header'>💡 Loan Amount & Interest Rate Analys
 c5, c6 = st.columns(2)
 
 with c5:
-    income_filtered = filtered[filtered.person_income < 200000]
+    income_filtered = filtered[filtered.person_income < 200000].copy()
     sample = income_filtered.sample(min(1500, len(income_filtered)), random_state=42)
     fig5 = px.scatter(sample, x='person_income', y='loan_amnt',
-                           color='loan_status_label', opacity=0.6,
+                           color=sample['loan_status_label'].astype(str),
+                           opacity=0.6,
                            color_discrete_map={'No Default':'#28a745','Default':'#e94560'},
-                           labels={'person_income':'Annual Income ($)','loan_amnt':'Loan Amount ($)','loan_status_label':'Status'},
+                           labels={'person_income':'Annual Income ($)','loan_amnt':'Loan Amount ($)','color':'Status'},
                            title='Loan Amount vs Income')
     fig5.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
                            height=320, margin=dict(t=40,b=20,l=10,r=10),
