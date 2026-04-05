@@ -59,6 +59,11 @@ filtered = df[
     (df.loan_intent.isin(intent_filter))
 ]
 
+# Safety check
+if len(filtered) == 0:
+    st.warning("No data matches the selected filters. Please adjust the filters.")
+    st.stop()
+
 # ── KPI cards ──────────────────────────────────────────────────────────────────
 st.markdown("<div class='section-header'>📋 Dataset Overview</div>", unsafe_allow_html=True)
 
@@ -142,6 +147,7 @@ with c4:
     fig4.update_yaxes(gridcolor='#eeeeee')
     fig4.update_xaxes(showgrid=False)
     st.plotly_chart(fig4, use_container_width=True)
+
 # ── Row 3: Loan amount vs income scatter + Interest rate by grade ──────────────
 st.markdown("<div class='section-header'>💡 Loan Amount & Interest Rate Analysis</div>", unsafe_allow_html=True)
 c5, c6 = st.columns(2)
@@ -150,14 +156,12 @@ with c5:
     income_filtered = filtered[filtered.person_income < 200000].copy()
     sample = income_filtered.sample(min(1500, len(income_filtered)), random_state=42)
     fig5 = px.scatter(sample, x='person_income', y='loan_amnt',
-                           color=sample['loan_status_label'].astype(str),
                            opacity=0.6,
-                           color_discrete_map={'No Default':'#28a745','Default':'#e94560'},
-                           labels={'person_income':'Annual Income ($)','loan_amnt':'Loan Amount ($)','color':'Status'},
+                           color_discrete_sequence=['#4e89e8'],
+                           labels={'person_income':'Annual Income ($)','loan_amnt':'Loan Amount ($)'},
                            title='Loan Amount vs Income')
     fig5.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           height=320, margin=dict(t=40,b=20,l=10,r=10),
-                       legend=dict(orientation='h', yanchor='bottom', y=1.02))
+                           height=320, margin=dict(t=40,b=20,l=10,r=10))
     fig5.update_xaxes(showgrid=False)
     fig5.update_yaxes(gridcolor='#eeeeee')
     st.plotly_chart(fig5, use_container_width=True)
